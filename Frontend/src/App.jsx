@@ -1,22 +1,30 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import Dashboard from './pages/Dashboard';
+import React from "react";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HeroSectionPage from "./components/HeroSection";
+import BookTrialForm from "./components/BookTrialForm";
 
-function App() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [role, setRole] = useState('');
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginPage setToken={setToken} setRole={setRole} />} />
-        <Route path="/register" element={<RegisterPage setToken={setToken} setRole={setRole} />} />
-        <Route path="/dashboard" element={<Dashboard token={token} />} />
-      </Routes>
-    </BrowserRouter>
-  );
+const Layout = () => (
+  <>
+    <Navbar />
+    <Outlet />
+  </>
+);
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { path: "/", element: <HeroSectionPage /> },
+      { path: "/book-trial", element: <BookTrialForm /> },
+    ],
+  },
+]);
+
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
