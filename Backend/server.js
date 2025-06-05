@@ -20,7 +20,7 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use('/api/trial', trialRoutes);
+app.use('/', trialRoutes);
 
 connectDB()
   .then(() => {
